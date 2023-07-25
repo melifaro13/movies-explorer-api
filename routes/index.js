@@ -5,7 +5,7 @@ const movieRoutes = require('./movie');
 const logout = require('./logout');
 
 router.use('/logout', logout);
-router.use('/user', userRoutes);
-router.use('/movie', movieRoutes);
+router.use('/users', userRoutes);
+router.use('/movies', movieRoutes);
 
 module.exports = router;
