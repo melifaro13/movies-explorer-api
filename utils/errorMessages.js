@@ -4,6 +4,7 @@ const badRequestMessage = 'Предоставлены некорректные �
 const userNotFoundMessage = 'Пользователь не найден';
 const conflictMessage = 'Пользователь с таким email уже существует';
 const authMessage = 'Неправильные почта или пароль';
+const serverError = 'На сервере произошла ошибка';
 
 module.exports = {
   forbiddenMessage,
@@ -12,4 +13,5 @@ module.exports = {
   userNotFoundMessage,
   conflictMessage,
   authMessage,
+  serverError,
 };
