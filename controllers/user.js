@@ -7,17 +7,19 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 
+const { conflictMessage, userNotFoundMessage, badRequestMessage } = require('../utils/errorMessages');
+
 const getUser = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError(userNotFoundMessage);
       }
       return res.send(formatUser(user));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Предоставлены некорректные данные'));
+        next(new BadRequestError(badRequestMessage));
       } else {
         next(err);
       }
@@ -34,10 +36,10 @@ const createUser = (req, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Предоставлены некорректные данные');
+        throw new BadRequestError(badRequestMessage);
       }
       if (err.code === 11000) {
-        throw new ConflictError('Пользователь с таким email уже существует');
+        throw new ConflictError(conflictMessage);
       }
       next(err);
     })
@@ -53,13 +55,13 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError(userNotFoundMessage);
       }
       return res.send(formatUser(user));
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Предоставлены некорректные данные'));
+        next(new BadRequestError(badRequestMessage));
       } else {
         next(err);
       }
