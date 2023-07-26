@@ -1,9 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
@@ -12,7 +11,7 @@ const { validationLogin, validationCreateUser } = require('./middlewares/validat
 const auth = require('./middlewares/auth');
 const extractJwt = require('./middlewares/extractJwt');
 // eslint-disable-next-line spaced-comment
-//const limiter = require('./middlewares/rateLimit');
+const limiter = require('./middlewares/rateLimit');
 const handleError = require('./middlewares/handleError');
 const NotFoundDocumentError = require('./errors/NotFoundDocumentError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -32,7 +31,7 @@ app.use(extractJwt);
 
 app.use(requestLogger);
 // eslint-disable-next-line spaced-comment
-//app.use(limiter);
+app.use(limiter);
 
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
