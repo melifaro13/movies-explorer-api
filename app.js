@@ -10,7 +10,6 @@ const { login, createUser } = require('./controllers/user');
 const { validationLogin, validationCreateUser } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 const extractJwt = require('./middlewares/extractJwt');
-// eslint-disable-next-line spaced-comment
 const limiter = require('./middlewares/rateLimit');
 const handleError = require('./middlewares/handleError');
 const NotFoundDocumentError = require('./errors/NotFoundDocumentError');
@@ -31,7 +30,6 @@ app.use(cookieParser());
 app.use(extractJwt);
 
 app.use(requestLogger);
-// eslint-disable-next-line spaced-comment
 app.use(limiter);
 
 app.post('/signin', validationLogin, login);
