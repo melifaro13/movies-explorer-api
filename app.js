@@ -2,8 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const helmet = require('helmet');
+// eslint-disable-next-line import/no-extraneous-dependencies, spaced-comment
+//const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { login, createUser } = require('./controllers/user');
@@ -23,7 +23,8 @@ const {
   MONGO_URL = 'mongodb://localhost:27017',
 } = process.env;
 
-app.use(helmet());
+// eslint-disable-next-line spaced-comment
+//app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
