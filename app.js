@@ -3,14 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
+// eslint-disable-next-line spaced-comment
+//const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { login, createUser } = require('./controllers/user');
 const { validationLogin, validationCreateUser } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 const extractJwt = require('./middlewares/extractJwt');
-const limiter = require('./middlewares/rateLimit');
+// eslint-disable-next-line spaced-comment
+//const limiter = require('./middlewares/rateLimit');
 const handleError = require('./middlewares/handleError');
 const NotFoundDocumentError = require('./errors/NotFoundDocumentError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -22,14 +24,16 @@ const {
   MONGO_URL = 'mongodb://localhost:27017',
 } = process.env;
 
-app.use(helmet());
+// eslint-disable-next-line spaced-comment
+//app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(extractJwt);
 
 app.use(requestLogger);
-app.use(limiter);
+// eslint-disable-next-line spaced-comment
+//app.use(limiter);
 
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
