@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -19,6 +20,7 @@ const {
   MONGO_URL = 'mongodb://localhost:27017',
 } = process.env;
 
+app.use(cors({ origin: 'melifaro1304.nomoredomains.xyz', credentials: true }));
 // eslint-disable-next-line spaced-comment
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
