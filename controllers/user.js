@@ -89,7 +89,8 @@ const login = (req, res, next) => {
 const logout = (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
-    sameSite: 'Strict',
+    sameSite: 'none',
+    secure: true,
   });
   res.json({ message: 'Вы успешно вышли' });
 };
