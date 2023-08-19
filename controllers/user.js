@@ -46,22 +46,43 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
+// const updateUser = (req, res, next) => {
+//   const { name, email } = req.body;
+//   User.findByIdAndUpdate(
+//     req.user._id,
+//     { name, email },
+//     { new: true, runValidators: true },
+//   )
+//     .then((user) => {
+//       if (!user) {
+//         throw new NotFoundError(userNotFoundMessage);
+//       }
+//       return res.send(formatUser(user));
+//     })
+//     .catch((err) => {
+//       if (err.name === 'ValidationError') {
+//         next(new BadRequestError(badRequestMessage));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
+
 const updateUser = (req, res, next) => {
-  const { name, email } = req.body;
+  const { email, name } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
-    { name, email },
-    { new: true, runValidators: true },
+    { email, name },
+    // eslint-disable-next-line comma-dangle
+    { new: true, runValidators: true }
   )
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError(userNotFoundMessage);
-      }
-      return res.send(formatUser(user));
-    })
+    .orFail(new NotFoundError(userNotFoundMessage))
+    .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(badRequestMessage));
+      } else if (err.code === 11000) {
+        next(new ConflictError(conflictMessage));
       } else {
         next(err);
       }
