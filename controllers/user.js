@@ -26,24 +26,53 @@ const getUser = (req, res, next) => {
     });
 };
 
+// const createUser = (req, res, next) => {
+//   const { name, email, password } = req.body;
+//   bcrypt.hash(password, 10)
+//     .then((hash) => User.create({
+//       name, email, password: hash,
+//     }))
+//     .then((({ id }) => User.findById(id)))
+//     .then((user) => res.send(user))
+//     .catch((err) => {
+//       if (err.name === 'ValidationError') {
+//         throw new BadRequestError(badRequestMessage);
+//       }
+//       if (err.code === 11000) {
+//         throw new ConflictError(conflictMessage);
+//       }
+//       next(err);
+//     })
+//     .catch(next);
+// };
+
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, email, password: hash,
+      name,
+      email,
+      password: hash,
     }))
-    .then((({ id }) => User.findById(id)))
-    .then((user) => res.send(user))
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, `${NODE_ENV === 'production' ? JWT_SECRET : 'yandex-praktikum'}`, { expiresIn: '7d' });
+      res.cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      res.status(200).json({ _id: user._id, email, name });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError(badRequestMessage);
+        next(new BadRequestError(badRequestMessage));
+      } else if (err.code === 11000) {
+        next(new ConflictError(conflictMessage));
+      } else {
+        next(err);
       }
-      if (err.code === 11000) {
-        throw new ConflictError(conflictMessage);
-      }
-      next(err);
-    })
-    .catch(next);
+    });
 };
 
 const updateUser = (req, res, next) => {
