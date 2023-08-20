@@ -68,26 +68,6 @@ const updateUser = (req, res, next) => {
     });
 };
 
-// const updateUser = (req, res, next) => {
-//   const { name, email } = req.body;
-//   User.findByIdAndUpdate(
-//     req.user._id,
-//     { name, email },
-//     { new: true, runValidators: true },
-//   )
-//     .orFail(new NotFoundError(userNotFoundMessage))
-//     .then((updatedUser) => res.send(updatedUser))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError(badRequestMessage));
-//       } else if (err.code === 11000) {
-//         next(new ConflictError(conflictMessage));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
@@ -99,7 +79,7 @@ const login = (req, res, next) => {
         sameSite: true,
         secure: true,
       })
-        .send({ message: 'Авторизация прошла успешно' });
+        .send(user);
     })
     .catch((err) => {
       next(err);
