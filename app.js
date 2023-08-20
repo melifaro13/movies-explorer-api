@@ -15,12 +15,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 const {
-  PORT = 3000,
+  PORT = 4000,
   // eslint-disable-next-line no-unused-vars
   MONGO_URL = 'mongodb://localhost:27017',
 } = process.env;
 
-app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 // eslint-disable-next-line spaced-comment
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
