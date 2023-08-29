@@ -26,26 +26,6 @@ const getUser = (req, res, next) => {
     });
 };
 
-// const createUser = (req, res, next) => {
-//   const { name, email, password } = req.body;
-//   bcrypt.hash(password, 10)
-//     .then((hash) => User.create({
-//       name, email, password: hash,
-//     }))
-//     .then((({ id }) => User.findById(id)))
-//     .then((user) => res.send(user))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         throw new BadRequestError(badRequestMessage);
-//       }
-//       if (err.code === 11000) {
-//         throw new ConflictError(conflictMessage);
-//       }
-//       next(err);
-//     })
-//     .catch(next);
-// };
-
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
   bcrypt.hash(password, 10)
